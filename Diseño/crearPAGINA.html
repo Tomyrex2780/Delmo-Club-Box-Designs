@@ -50,19 +50,27 @@
                 <div id="formulario-dinamico">
                     <div class="item">
                         <label class="form-label">Producto:</label>
-                        <label class="form-label">Item <span class="item-numero">1</span>:</label>
-                        <select name="producto[]" class="producto-seleccion form-control" required>
-                            {% for producto in productos %}
-                                <option value="{{ producto[0] }}">{{ producto[1] }} - ${{ producto[2] }}</option>
-                            {% endfor %}
-                        </select>
-                        <label class="form-label">Cantidad:</label>
-                        <input type="number" name="cantidad[]" class="form-control" required min="1">
+                        <div class="producto-cantidad-container" style="display: flex; gap: 10px;">
+                            <div style="flex: 1;">
+                                <label class="form-label">Item <span class="item-numero">1</span>:</label>
+                                <select name="producto[]" class="producto-seleccion form-controlv2" required>
+                                    {% for producto in productos %}
+                                        <option value="{{ producto[0] }}">{{ producto[1] }} - ${{ producto[2] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div style="flex: 1;">
+                                <label class="form-label">Cantidad:</label>
+                                <input type="number" name="cantidad[]" class="form-controlv2" required min="1">
+                            </div>
+                        </div>
+                        <button type="button" class="eliminar btn btn-primary">Eliminar</button>
+                        <button type="button" class="btn btn-primary">Eliminar</button>
                     </div>
                 </div>
+                
                 <div class="botones-container" style="display: flex; gap: 10px; margin-top: 10px;">
                     <button type="button" class="btn btn-primary" id="agregar">Agregar Otro Item</button>
-                    <button type="button" class="btn btn-primary">Eliminar</button>
                     <button type="submit" class="btn btn-primary">Crear orden</button>
                 </div>
             </form>
