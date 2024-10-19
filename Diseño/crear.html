@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href="style.css">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <title>Box</title>
+</head>
+<body>
+    <div>
+        <h1>Crear Orden</h1>
+    </div>
+    <div id="formulario-dinamico-container" data-productos='{{ productos | tojson | safe }}'>
+        <form action="/crear_orden" method="POST">
+            <input type="hidden" name="cliente_id" value="{{ cliente }}">
+            <label for="fechaent" class="form-label">Fecha entrega</label>
+            <input type="date" class="form-control" id="fechaent" name="fechaent" required>
+
+            <label for="empleado" class="form-label">Empleado</label>
+            <select class="form-control" id="empleado" name="empleado" required>
+                {% for empleado in empleados %}
+                    <option value="{{ empleado.id }}">{{ empleado.nombre }}</option>
+                {% endfor %}
+            </select>
+        
+            <label for="entrega" class="form-label">Tipo de entrega</label>
+            <select class="form-control" id="entrega" name="entrega" required>
+                <option value="entrega">Metodo de entrega</option>
+            </select>
+            <br>
+            <label for="pago" class="form-label">Tipo de pago</label>
+            <select class="form-control" id="pago" name="pago" required>
+                <option value="pago">Metodo de pago</option>
+                <!-- aca irian los metodos de pago -->
+            </select>
+            <br>
+            <label for="descuento" class="form-label">Descuento</label>
+            <input type="number" class="form-control" id="descuento" name="descuento" max = 100 min = 0 required>
+            <br>
+            <label for="observaciones" class="form-label">Observaciones</label>
+            <input type="text" class="form-control" id="observaciones" name="observaciones" maxlength="45" required>
+            <br>
+
+            <div id="formulario-dinamico">
+                <div class="item">
+                    <label>Item #<span class="item-numero">1</span>:</label>
+                    <label>Producto:</label>
+                    <select name="producto[]" class="producto-seleccion" required>
+                        {% for producto in productos %}
+                            <option value="{{ producto[0] }}">{{ producto[1] }} - ${{ producto[2] }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Cantidad:</label>
+                    <input type="number" name="cantidad[]" required min="1">
+                    <button type="button" class="eliminar">Eliminar</button>
+                </div>
+            </div>
+            <button type="button" id="agregar">Agregar Otro Item</button>
+            <br>
+            <button type="submit" class="btn btn-primary">Crear orden</button>
+        </form>
+    </div>
+</body>
+</html>

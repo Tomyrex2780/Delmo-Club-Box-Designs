@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href="style.css">
+    <title>Elegir Cliente</title>
+</head>
+<body class="body-cliente">
+    <div class="container-nav">
+        <ul>
+            <li><a href="{{ url_for('mostrar_orden') }}" class="mostrar">Mostrar Órdenes de Venta</a></li>
+            <li><a href="{{ url_for('elegir_cliente') }}" class="crear">Crear Orden</a></li>
+        </ul>
+    </div>
+    <div class="form-container">
+        <h1>Elegir Cliente</h1>
+        <form action="/elegir_cliente" method="POST">
+            <label for="cliente" class="form-label">Cliente</label>
+            <select class="form-control" id="cliente" name="cliente" required>
+                {% for cliente in clientes %}
+                    <option value="{{ cliente.id }}">{{ cliente.razon }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">Siguiente</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href="style.css">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <title>Box</title>
+</head>
+<body class="body-crear">
+    <div class="container-crear">
+        <h1>Crear Orden</h1>
+        <div id="formulario-dinamico-container" data-productos='{{ productos | tojson | safe }}'>
+            <form action="/crear_orden" method="POST">
+                <input type="hidden" name="cliente_id" value="{{ cliente }}">
+                <label for="fechaent" class="form-label">Fecha entrega</label>
+                <input type="date" class="form-control" id="fechaent" name="fechaent" required>
+
+                <label for="empleado" class="form-label">Empleado</label>
+                <select class="form-control" id="empleado" name="empleado" required>
+                    {% for empleado in empleados %}
+                        <option value="{{ empleado.id }}">{{ empleado.nombre }}</option>
+                    {% endfor %}
+                </select>
+            
+                <label for="entrega" class="form-label">Tipo de entrega</label>
+                <select class="form-control" id="entrega" name="entrega" required>
+                    <option value="-">-</option>
+                    <option value="Retiro">Retiro</option>
+                    <option value="Domicilio">Domicilio</option>
+                </select>
+                <br>
+                <label for="pago" class="form-label">Tipo de pago</label>
+                <select class="form-control" id="pago" name="pago" required>
+                    <option value="-">-</option>
+                    <option value="Efectivo">Efectivo</option>
+                    <option value="Credito">Credito</option>
+                    <option value="Debito">Debito</option>
+                    <option value="Cheque">Cheque</option>
+                    <option value="pago">Metodo de pago</option>
+                </select>
+                <br>
+                <label for="descuento" class="form-label">Descuento</label>
+                <input type="number" class="form-control" id="descuento" name="descuento" max = 100 min = 0 required>
+                <br>
+                <label for="observaciones" class="form-label">Observaciones</label>
+                <input type="text" class="form-control" id="observaciones" name="observaciones" maxlength="45" required>
+                <br>
+
+                <div id="formulario-dinamico">
+                    <div class="item">
+                        <label class="form-label">Producto:</label>
+                        <label class="form-label">Item <span class="item-numero">1</span>:</label>
+                        <select name="producto[]" class="producto-seleccion form-control" required>
+                            {% for producto in productos %}
+                                <option value="{{ producto[0] }}">{{ producto[1] }} - ${{ producto[2] }}</option>
+                            {% endfor %}
+                        </select>
+                        <label class="form-label">Cantidad:</label>
+                        <input type="number" name="cantidad[]" class="form-control" required min="1">
+                    </div>
+                </div>
+                <div class="botones-container" style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button type="button" class="btn btn-primary" id="agregar">Agregar Otro Item</button>
+                    <button type="button" class="btn btn-primary">Eliminar</button>
+                    <button type="submit" class="btn btn-primary">Crear orden</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
